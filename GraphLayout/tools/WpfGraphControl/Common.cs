@@ -33,9 +33,10 @@ namespace Microsoft.Msagl.WpfGraphControl {
         static void PositionFrameworkElement(FrameworkElement frameworkElement, double x, double y, double scale) {
             if (frameworkElement == null)
                 return;
+            var size = frameworkElement.MeasureDesiredSize();
             frameworkElement.RenderTransform =
-                new MatrixTransform(new Matrix(scale, 0, 0, -scale, x - scale*frameworkElement.Width/2,
-                    y + scale*frameworkElement.Height/2));
+                new MatrixTransform(new Matrix(scale, 0, 0, -scale, x - scale* size.Width/2,
+                    y + scale* size.Height/2));
         }
 
     }

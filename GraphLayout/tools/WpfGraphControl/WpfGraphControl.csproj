@@ -89,6 +89,7 @@
   <ItemGroup>
     <Compile Include="ClickCounter.cs" />
     <Compile Include="Common.cs" />
+    <Compile Include="FrameworkElementExtensions.cs" />
     <Compile Include="GraphViewer.cs" />
     <Compile Include="GvMouseEventArgs.cs" />
     <Compile Include="IInvalidatable.cs" />

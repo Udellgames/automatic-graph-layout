@@ -727,7 +727,6 @@ namespace Microsoft.Msagl.WpfGraphControl {
         }
 
         void ProcessGraphUnderLock() {
-            try {
                 if (LayoutStarted != null)
                     LayoutStarted(null, null);
 
@@ -751,9 +750,6 @@ namespace Microsoft.Msagl.WpfGraphControl {
                     SetUpBackgrounWorkerAndRunAsync();
                 else
                     RunLayoutInUIThread();
-            } catch (Exception e) {
-                MessageBox.Show(e.ToString());
-            }
         }
 
         void RunLayoutInUIThread()
@@ -921,8 +917,9 @@ namespace Microsoft.Msagl.WpfGraphControl {
         /// <returns></returns>
         public IViewerNode CreateIViewerNode(Drawing.Node drawingNode) {
             var frameworkElement = CreateTextBlockForDrawingObj(drawingNode);
-            var width = frameworkElement.Width + 2*drawingNode.Attr.LabelMargin;
-            var height = frameworkElement.Height + 2*drawingNode.Attr.LabelMargin;
+            var size = frameworkElement.MeasureDesiredSize();
+            var width = size.Width + 2*drawingNode.Attr.LabelMargin;
+            var height = size.Height + 2*drawingNode.Attr.LabelMargin;
             var bc = NodeBoundaryCurves.GetNodeBoundaryCurve(drawingNode, width, height);
             drawingNode.GeometryNode = new Node(bc, drawingNode);
             var vNode = CreateVNode(drawingNode);
@@ -1368,11 +1365,13 @@ namespace Microsoft.Msagl.WpfGraphControl {
             double width, height;
 
             FrameworkElement fe;
-            if (drawingObjectsToFrameworkElements.TryGetValue(subgraph, out fe)) {
-
-                width = fe.Width + 2*subgraph.Attr.LabelMargin + subgraph.DiameterOfOpenCollapseButton;
-                height = Math.Max(fe.Height + 2*subgraph.Attr.LabelMargin, subgraph.DiameterOfOpenCollapseButton);
-            } else
+            if (drawingObjectsToFrameworkElements.TryGetValue(subgraph, out fe))
+            {
+                var size = fe.MeasureDesiredSize();
+                width = size.Width + 2 * subgraph.Attr.LabelMargin + subgraph.DiameterOfOpenCollapseButton;
+                height = Math.Max(size.Height + 2 * subgraph.Attr.LabelMargin, subgraph.DiameterOfOpenCollapseButton);
+            }
+            else
                 return GetApproximateCollapsedBoundary(subgraph);
 
             if (width < _drawingGraph.Attr.MinNodeWidth)
@@ -1413,8 +1412,9 @@ namespace Microsoft.Msagl.WpfGraphControl {
                                     DrawingObject drawingObj) {
             if (drawingObjectsToFrameworkElements.ContainsKey(drawingObj)) {
                 FrameworkElement fe = drawingObjectsToFrameworkElements[drawingObj];
-                labeledGeomObj.Label.Width = fe.Width;
-                labeledGeomObj.Label.Height = fe.Height;
+                var size = fe.MeasureDesiredSize();
+                labeledGeomObj.Label.Width = size.Width;
+                labeledGeomObj.Label.Height = size.Height;
             }
         }
 
@@ -1424,8 +1424,10 @@ namespace Microsoft.Msagl.WpfGraphControl {
 
             FrameworkElement fe;
             if (drawingObjectsToFrameworkElements.TryGetValue(node, out fe)) {
-                width = fe.Width + 2*node.Attr.LabelMargin;
-                height = fe.Height + 2*node.Attr.LabelMargin;
+                var size = fe.MeasureDesiredSize();
+
+                width = size.Width + 2*node.Attr.LabelMargin;
+                height = size.Height + 2*node.Attr.LabelMargin;
             } else
                 return GetNodeBoundaryCurveByMeasuringText(node);
 

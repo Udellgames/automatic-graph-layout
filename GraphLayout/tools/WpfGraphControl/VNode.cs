@@ -233,10 +233,11 @@ namespace Microsoft.Msagl.WpfGraphControl {
                 // FrameworkElementOfNode.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                 var center = Node.GeometryNode.Center;
                 var margin = 2*Node.Attr.LabelMargin;
+                var feSize = FrameworkElementOfNodeForLabel.MeasureDesiredSize();
                 var bc = NodeBoundaryCurves.GetNodeBoundaryCurve(Node,
-                    FrameworkElementOfNodeForLabel
+                    feSize
                         .Width + margin,
-                    FrameworkElementOfNodeForLabel
+                    feSize
                         .Height + margin);
                 bc.Translate(center);
                 //                if (LgNodeInfo != null) {
