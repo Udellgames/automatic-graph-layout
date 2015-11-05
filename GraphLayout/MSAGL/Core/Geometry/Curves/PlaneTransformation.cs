@@ -250,7 +250,8 @@ namespace Microsoft.Msagl.Core.Geometry.Curves {
         /// <param name="scale"></param>
         /// <param name="center"></param>
         /// <returns></returns>
-        public static PlaneTransformation ScaleAroundCenterTransformation(double scale, Point center) {
+        public static PlaneTransformation ScaleAroundCenterTransformation(double scale, Point center)
+        {
             /*var toOrigin = new PlaneTransformation(1, 0, -center.X, 0, 1, -center.Y);
             var scaleTr = new PlaneTransformation(scale, 0, 0,
                                                   0, scale, 0);
@@ -260,6 +261,20 @@ namespace Microsoft.Msagl.Core.Geometry.Curves {
             var d = 1 - scale;
             return new PlaneTransformation(scale, 0, d * center.X, 0, scale, d * center.Y);
         }
+
+        public double XScale
+        {
+            get { return this[0,0]; }
+        }
+
+        public double YScale
+        {
+            get
+            {
+                return this[1, 1];
+            }
+        }
+
 
         public static PlaneTransformation ScaleAroundCenterTransformation(double xScale, double yScale, Point center)
         {
