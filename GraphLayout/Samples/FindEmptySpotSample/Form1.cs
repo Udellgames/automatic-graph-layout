@@ -26,9 +26,10 @@ namespace FindEmptySpotSample {
 
         void Form1_Load(object sender, EventArgs e) {
             gViewer.ObjectUnderMouseCursorChanged += new EventHandler<ObjectUnderMouseCursorChangedEventArgs>(gViewer_ObjectUnderMouseCursorChanged);
-
+            gViewer.ForeColor = System.Drawing.Color.LightPink;
+            gViewer.BackColor = System.Drawing.Color.MediumAquamarine;
 #if DEBUG
-           Microsoft.Msagl.GraphViewerGdi.DisplayGeometryGraph.SetShowFunctions();
+            Microsoft.Msagl.GraphViewerGdi.DisplayGeometryGraph.SetShowFunctions();
 #endif
 
            CreateGraph();
@@ -162,7 +163,7 @@ namespace FindEmptySpotSample {
 
         private void CreateGraph() {
             Graph graph = new Graph("graph");
-
+            graph.Attr.BackgroundColor = Color.DodgerBlue;
             Edge edge = (Edge)graph.AddEdge("S24", "27");
             edge.LabelText = "Edge Label Test";
 
